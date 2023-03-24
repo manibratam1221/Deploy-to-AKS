@@ -20,12 +20,11 @@ stages:
     - task: Docker@2
       displayName: Build an image
       inputs:
-        containerRegistry: 'K8SExamplesACR'
+        containerRegistry: 'k8sContainerRegistry'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/app/Dockerfile'
-        tags: |
-          $(tag)
+        tags: '$(tag)'
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/s/kubernetes'
@@ -57,10 +56,11 @@ stages:
           - task: KubernetesManifest@0
             inputs:
               action: 'createSecret'
+              kubernetesServiceConnection: 'K8s_Example'
               namespace: 'default'
               secretType: 'dockerRegistry'
               secretName: '$(acrsecret)'
-              dockerRegistryEndpoint: 'K8SExamplesACR'
+              dockerRegistryEndpoint: 'k8sContainerRegistry'
           - task: replacetokens@3
             displayName: Replace Tokens
             inputs:
