@@ -83,5 +83,5 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
-              containers: 'k8sexampleacr.azurecr.io/$(imageRepo):$(tag)'
+              containers: 'k8sexampleacr.azurecr.io/sampleapp:20'
               imagePullSecrets: '$(acrsecret)'
